@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShootCannon : MonoBehaviour
 {
-
     [SerializeField] private GameObject cannonballPrefab;
     [SerializeField] private GameObject cannonballHolder;
     
@@ -17,7 +16,7 @@ public class ShootCannon : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
         // Rotate cannonBarrel to mousePos
-        Vector2 direction = (mousePos - cannonBarrel.position).normalized;   
+        Vector2 direction = (cannonBarrel.position - mousePos).normalized;   
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         cannonBarrel.rotation = Quaternion.Euler(0, 0, angle);
 
@@ -27,8 +26,8 @@ public class ShootCannon : MonoBehaviour
             
             Rigidbody2D rb = cannonball.GetComponent<Rigidbody2D>();
             Vector2 shootDirection = (mousePos - spawnPos.position).normalized;
-            
-            rb.AddForce(shootDirection * shootForce, ForceMode2D.Impulse);
+
+            rb.AddForce(-shootDirection * shootForce, ForceMode2D.Impulse);
         }
     }
 }
