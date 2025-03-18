@@ -7,23 +7,28 @@ public class ShootCannon : MonoBehaviour
 
     [SerializeField] private GameObject cannonballPrefab;
     [SerializeField] private GameObject cannonballHolder;
-    [SerializeField] private Vector3 spawnPos;
-
-    void Start()
-    {
-        
-    }
+    
+    [SerializeField] private Transform cannonBarrel;
+    [SerializeField] private Transform spawnPos;
+    [SerializeField] private float shootForce;
 
     void Update()
     {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        // Rotate cannonBarrel to mousePos
+        Vector2 direction = (mousePos - cannonBarrel.position).normalized;   
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        cannonBarrel.rotation = Quaternion.Euler(0, 0, angle);
+
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(cannonballPrefab, spawnPos, Quaternion.identity, cannonballHolder.transform);
-
-            Vector3 mousePos = Input.mousePosition;
-
-            Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
-
+            GameObject cannonball = Instantiate(cannonballPrefab, spawnPos.position, Quaternion.identity, cannonballHolder.transform);
+            
+            Rigidbody2D rb = cannonball.GetComponent<Rigidbody2D>();
+            Vector2 shootDirection = (mousePos - spawnPos.position).normalized;
+            
+            rb.AddForce(shootDirection * shootForce, ForceMode2D.Impulse);
         }
     }
 }
