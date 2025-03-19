@@ -17,6 +17,11 @@ public class PirateScript : MonoBehaviour
             this.GetComponent<SpriteRenderer>().sprite = angryPirate;
             gm.AddScore(100);
             isHit = true;
+            gm.piratesAlive -= 1;
+            if (gm.piratesAlive == 0)
+            {
+                gm.LevelCompleted();
+            }
         }
     }
 }

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalScore;
     [SerializeField] private TextMeshProUGUI scoreText;
 
+    public int piratesAlive;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -23,5 +25,15 @@ public class GameManager : MonoBehaviour
     {
         totalScore += amount;
         scoreText.text = "Score: " + totalScore;
+    }
+
+    public void GameOver()
+    {
+        Debug.Log("Game Over, you ran out of cannonballs!");
+    }
+
+    public void LevelCompleted()
+    {
+        Debug.Log("Level Completed, you hit every pirate!");
     }
 }
