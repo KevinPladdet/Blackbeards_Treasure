@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
 
-    public float totalScore;
+    [Header("Score")]
+    [SerializeField] private int totalScore;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
     void Update()
     {
@@ -14,5 +17,11 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("MainScene");
         }
+    }
+
+    public void AddScore(int amount)
+    {
+        totalScore += amount;
+        scoreText.text = "Score: " + totalScore;
     }
 }
