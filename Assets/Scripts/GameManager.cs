@@ -10,16 +10,18 @@ public class GameManager : MonoBehaviour
     [Header("Score")]
     [SerializeField] private int totalScore;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI piratesScoreText;
+    [SerializeField] private TextMeshProUGUI cannonballScoreText;
+    [SerializeField] private TextMeshProUGUI totalScoreText;
 
+    [Header("End Menus")]
+    [SerializeField] private GameObject endMenu;
+    [SerializeField] private GameObject gameOverMenu;
+    [SerializeField] private GameObject levelCompletedMenu;
+
+    public int amountCannonballs;
     public int piratesAlive;
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene("MainScene");
-        }
-    }
+    public int piratesKilled;
 
     public void AddScore(int amount)
     {
@@ -29,11 +31,34 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Game Over, you ran out of cannonballs!");
+        Time.timeScale = 0f;
+        endMenu.SetActive(true);
+        gameOverMenu.SetActive(true);
+        piratesScoreText.text = "" + piratesKilled + " x 100";
+        cannonballScoreText.text = "" + amountCannonballs + " x 200";
+        totalScore += amountCannonballs * 200;
+        totalScoreText.text = "" + totalScore;
     }
 
     public void LevelCompleted()
     {
-        Debug.Log("Level Completed, you hit every pirate!");
+        Time.timeScale = 0f;
+        endMenu.SetActive(true);
+        levelCompletedMenu.SetActive(true);
+        piratesScoreText.text = "" + piratesKilled + " x 100";
+        cannonballScoreText.text = "" + amountCannonballs + " x 200";
+        totalScore += amountCannonballs * 200;
+        totalScoreText.text = "" + totalScore;
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("MainScene");
+        Time.timeScale = 1f;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

@@ -17,11 +17,10 @@ public class ShootCannon : MonoBehaviour
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI cannonballAmountText;
-    [SerializeField] private int amountCannonballs;
     
     private void Start()
     {
-        cannonballAmountText.text = "" + amountCannonballs;
+        cannonballAmountText.text = "" + gm.amountCannonballs;
     }
 
     void Update()
@@ -29,11 +28,11 @@ public class ShootCannon : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
         // Rotate cannonBarrel to mousePos
-        Vector2 direction = (cannonBarrel.position - mousePos).normalized;   
+        Vector2 direction = (cannonBarrel.position - mousePos).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         cannonBarrel.rotation = Quaternion.Euler(0, 0, angle);
 
-        if (Input.GetMouseButtonDown(0) && amountCannonballs >= 1)
+        if (Input.GetMouseButtonDown(0) && gm.amountCannonballs >= 1)
         {
             GameObject cannonball = Instantiate(cannonballPrefab, spawnPos.position, Quaternion.identity, cannonballHolder.transform);
             
@@ -42,9 +41,9 @@ public class ShootCannon : MonoBehaviour
 
             rb.AddForce(-shootDirection * shootForce, ForceMode2D.Impulse);
 
-            amountCannonballs -= 1;
-            cannonballAmountText.text = "" + amountCannonballs;
-            if (amountCannonballs == 0 && gm.piratesAlive >= 1)
+            gm.amountCannonballs -= 1;
+            cannonballAmountText.text = "" + gm.amountCannonballs;
+            if (gm.amountCannonballs == 0 && gm.piratesAlive >= 1)
             {
                 StartCoroutine(WaitForFinalCannonball());
             }
@@ -55,7 +54,7 @@ public class ShootCannon : MonoBehaviour
     IEnumerator WaitForFinalCannonball()
     {
         yield return new WaitForSeconds(5f);
-        if (amountCannonballs == 0 && gm.piratesAlive >= 1)
+        if (gm.amountCannonballs == 0 && gm.piratesAlive >= 1)
         {
             gm.GameOver();
         }

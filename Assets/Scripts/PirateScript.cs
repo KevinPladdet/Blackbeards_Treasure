@@ -18,10 +18,7 @@ public class PirateScript : MonoBehaviour
             gm.AddScore(100);
             isHit = true;
             gm.piratesAlive -= 1;
-            if (gm.piratesAlive == 0)
-            {
-                gm.LevelCompleted();
-            }
+            gm.piratesKilled += 1;
             StartCoroutine(FadePirate());
         }
     }
@@ -43,6 +40,10 @@ public class PirateScript : MonoBehaviour
             color.a = Mathf.Lerp(1f, 0f, elapsedTime / duration);
             sr.color = color;
             yield return null;
+        }
+        if (gm.piratesAlive == 0)
+        {
+            gm.LevelCompleted();
         }
         Destroy(gameObject);
     }
