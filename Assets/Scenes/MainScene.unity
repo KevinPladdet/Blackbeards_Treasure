@@ -4589,6 +4589,7 @@ MonoBehaviour:
   endMenu: {fileID: 518762177}
   gameOverMenu: {fileID: 657439119}
   levelCompletedMenu: {fileID: 1012748720}
+  pausedGame: 0
   amountCannonballs: 5
   piratesAlive: 2
   piratesKilled: 0
