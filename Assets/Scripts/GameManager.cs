@@ -19,19 +19,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverMenu;
     [SerializeField] private GameObject levelCompletedMenu;
 
-    public bool pausedGame;
+    public bool gameIsPaused;
+    public bool cantActivatePauseMenu;
 
     public int amountCannonballs;
     public int piratesAlive;
     public int piratesKilled;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene("MainScene");
-        }
-    }
 
     public void AddScore(int amount)
     {
@@ -42,7 +35,8 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0f;
-        pausedGame = true;
+        gameIsPaused = true;
+        cantActivatePauseMenu = true;
         endMenu.SetActive(true);
         gameOverMenu.SetActive(true);
         piratesScoreText.text = "" + piratesKilled + " x 100";
@@ -54,7 +48,8 @@ public class GameManager : MonoBehaviour
     public void LevelCompleted()
     {
         Time.timeScale = 0f;
-        pausedGame = true;
+        gameIsPaused = true;
+        cantActivatePauseMenu = true;
         endMenu.SetActive(true);
         levelCompletedMenu.SetActive(true);
         piratesScoreText.text = "" + piratesKilled + " x 100";
@@ -67,7 +62,8 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainScene");
         Time.timeScale = 1f;
-        pausedGame = false;
+        gameIsPaused = false;
+        cantActivatePauseMenu = false;
     }
 
     public void QuitGame()

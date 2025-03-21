@@ -30,14 +30,14 @@ public class ShootCannon : MonoBehaviour
         // Rotate cannonBarrel to mousePos
         Vector2 direction = (cannonBarrel.position - mousePos).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (!gm.pausedGame)
+        if (!gm.gameIsPaused)
         {
             cannonBarrel.rotation = Quaternion.Euler(0, 0, angle);
         }
 
         if (Input.GetMouseButtonDown(0) && gm.amountCannonballs >= 1 || Input.GetKeyDown(KeyCode.Space) && gm.amountCannonballs >= 1)
         {
-            if (!gm.pausedGame)
+            if (!gm.gameIsPaused)
             {
                 GameObject cannonball = Instantiate(cannonballPrefab, spawnPos.position, Quaternion.identity, cannonballHolder.transform);
 

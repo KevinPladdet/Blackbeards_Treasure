@@ -22,9 +22,8 @@ public class PowerupsManager : MonoBehaviour
     {
         if (cannonball.gameObject.CompareTag("Cannonball") && !receivedUpgade)
         {
-            Debug.Log("hit circle");
-            //randomUpgrade = Random.Range(1, 7);
-            randomUpgrade = 3;
+            //randomUpgrade = Random.Range(1, 6);
+            randomUpgrade = 5;
 
             Rigidbody2D rb = cannonball.GetComponent<Rigidbody2D>();
             Vector2 currentDirection = rb.velocity.normalized;
@@ -68,9 +67,8 @@ public class PowerupsManager : MonoBehaviour
                 case 5:
                     // Explosive Cannonball (Cannonball explodes on impact)
                     cannonball.GetComponent<SpriteRenderer>().sprite = explosiveCannonballSprite;
-                    break;
-                case 6:
-                    // Ghosting through walls, so you can only hit enemies (Cannonball can go through everything except the enemies and ground)
+                    cannonball.GetComponent<Rigidbody2D>().mass = 4;
+                    rb.AddForce(currentDirection * 10, ForceMode2D.Impulse);
                     break;
                 default:
                     Debug.Log("Upgrade didnt work");
