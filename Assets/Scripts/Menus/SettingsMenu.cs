@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using TMPro;
 
@@ -60,6 +61,11 @@ public class SettingsMenu : MonoBehaviour
     public void SetMusic(float musicVolume)
     {
         musicMixer.SetFloat("musicVolume", musicVolume);
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 
     public void QuitGame()
