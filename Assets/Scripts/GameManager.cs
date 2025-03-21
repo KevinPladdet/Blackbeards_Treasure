@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         cannonballScoreText.text = "" + amountCannonballs + " x 200";
         totalScore += amountCannonballs * 200;
         totalScoreText.text = "" + totalScore;
+        scoreText.text = "Score: " + totalScore;
     }
 
     public void LevelCompleted()
@@ -56,6 +57,8 @@ public class GameManager : MonoBehaviour
         cannonballScoreText.text = "" + amountCannonballs + " x 200";
         totalScore += amountCannonballs * 200;
         totalScoreText.text = "" + totalScore;
+        scoreText.text = "Score: " + totalScore;
+
     }
 
     public void PlayAgain()
