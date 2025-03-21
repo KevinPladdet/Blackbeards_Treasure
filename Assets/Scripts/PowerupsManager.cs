@@ -5,15 +5,22 @@ using UnityEngine;
 public class PowerupsManager : MonoBehaviour
 {
 
-    [SerializeField] private Sprite explosiveCannonballSprite;
-    [SerializeField] private int randomUpgrade;
-
     [SerializeField] private GameObject cannonballPrefab;
     [SerializeField] private GameObject cannonballHolder;
+    [SerializeField] private Sprite explosiveCannonballSprite;
+    
+    [SerializeField] private int randomUpgrade;
+    [SerializeField] private bool receivedUpgade;
+    [SerializeField] private int splitShootForce;
+
+    private void Start()
+    {
+        SpawnCircle();
+    }
 
     private void OnTriggerEnter2D(Collider2D cannonball)
     {
-        if (cannonball.gameObject.CompareTag("Cannonball"))
+        if (cannonball.gameObject.CompareTag("Cannonball") && !receivedUpgade)
         {
             Debug.Log("hit circle");
             //randomUpgrade = Random.Range(1, 7);
@@ -33,20 +40,22 @@ public class PowerupsManager : MonoBehaviour
                     rb.AddForce(currentDirection * 5, ForceMode2D.Impulse);
                     break;
                 case 3:
-                    // Multiply/split projectile (Cannonball duplicates into 2 cannonballs)
+                    // Split projectile (Cannonball duplicates into 2 cannonballs)
                     Transform cannonballPos = cannonball.GetComponent<Transform>();
+                    Rigidbody2D originalRb = cannonball.GetComponent<Rigidbody2D>();
+                    Vector2 originalDirection = originalRb.velocity.normalized;
+
+                    // Spawn new cannonballs at slightly different positions
                     Vector3 split1Pos = cannonballPos.position + new Vector3(0.5f, 0.5f, 0f);
                     Vector3 split2Pos = cannonballPos.position + new Vector3(-0.5f, -0.5f, 0f);
 
                     GameObject splitCannonball1 = Instantiate(cannonballPrefab, split1Pos, Quaternion.identity, cannonballHolder.transform);
                     Rigidbody2D rb1 = splitCannonball1.GetComponent<Rigidbody2D>();
-                    Vector2 currentDirection1 = rb1.velocity.normalized;
-                    rb1.AddForce(currentDirection1 * 5, ForceMode2D.Impulse);
+                    rb1.AddForce(originalDirection * splitShootForce, ForceMode2D.Impulse);
 
                     GameObject splitCannonball2 = Instantiate(cannonballPrefab, split2Pos, Quaternion.identity, cannonballHolder.transform);
                     Rigidbody2D rb2 = splitCannonball2.GetComponent<Rigidbody2D>();
-                    Vector2 currentDirection2 = rb2.velocity.normalized;
-                    rb2.AddForce(currentDirection2 * 5, ForceMode2D.Impulse);
+                    rb2.AddForce(originalDirection * splitShootForce, ForceMode2D.Impulse);
 
                     Destroy(cannonball.gameObject);
                     break;
@@ -67,11 +76,25 @@ public class PowerupsManager : MonoBehaviour
                     Debug.Log("Upgrade didnt work");
                     break;
             }
+            receivedUpgade = true;
+            this.GetComponent<SpriteRenderer>().enabled = false;
+            StartCoroutine(WaitForSpawnCircle());
         }
     }
 
-    private void RandomPosition()
+    IEnumerator WaitForSpawnCircle()
     {
+        yield return new WaitForSeconds(3f);
+        SpawnCircle();
+    }
 
+    private void SpawnCircle()
+    {
+        float randomX = Random.Range(-0.75f, 7.85f);
+        float randomY = Random.Range(-3.75f, 3.75f);
+
+        this.GetComponent<Transform>().position = new Vector3(randomX, randomY, 1f);
+        receivedUpgade = false;
+        this.GetComponent<SpriteRenderer>().enabled = true;
     }
 }
