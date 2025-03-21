@@ -22,8 +22,7 @@ public class PowerupsManager : MonoBehaviour
     {
         if (cannonball.gameObject.CompareTag("Cannonball") && !receivedUpgade)
         {
-            //randomUpgrade = Random.Range(1, 6);
-            randomUpgrade = 5;
+            randomUpgrade = Random.Range(1, 6);
 
             Rigidbody2D rb = cannonball.GetComponent<Rigidbody2D>();
             Vector2 currentDirection = rb.velocity.normalized;

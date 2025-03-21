@@ -60,7 +60,7 @@ public class ShootCannon : MonoBehaviour
     IEnumerator WaitForFinalCannonball()
     {
         yield return new WaitForSeconds(5f);
-        if (gm.amountCannonballs == 0 && gm.piratesKilled >= 2)
+        if (gm.amountCannonballs == 0 && gm.piratesKilled >= 3)
         {
             gm.GameOver();
         }
