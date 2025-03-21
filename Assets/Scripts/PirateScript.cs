@@ -17,6 +17,7 @@ public class PirateScript : MonoBehaviour
             this.GetComponent<SpriteRenderer>().sprite = angryPirate;
             gm.AddScore(100);
             isHit = true;
+            gm.piratesKilled += 1;
             StartCoroutine(FadePirate());
         }
     }
@@ -42,7 +43,6 @@ public class PirateScript : MonoBehaviour
 
         // This makes sure it only enables the level completed menu when the pirate has opacity 0
         gm.piratesAlive -= 1;
-        gm.piratesKilled += 1;
         if (gm.piratesAlive == 0)
         {
             gm.LevelCompleted();
